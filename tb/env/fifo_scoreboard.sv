@@ -29,6 +29,10 @@ class fifo_scoreboard extends uvm_scoreboard;
 
         if (queue.size() < DEPTH) 
             queue.push_back(item.wr_data);
+        else begin
+            `uvm_info("SCORE", $sformatf("Ignored writing %0d while FIFO is full.", item.wr_data), UVM_LOW)
+            return;
+        end
 
         if (full_passed && almost_full_passed && count_passed) begin
             `uvm_info("SCORE", $sformatf("Test passed while writing %0d.", item.wr_data), UVM_LOW)
