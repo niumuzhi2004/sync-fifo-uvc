@@ -21,7 +21,7 @@ class fifo_wr_monitor extends uvm_monitor;
 
         forever begin
             @(vif.monitor_cb);
-            if (vif.monitor_cb.wr_en && ~vif.monitor_cb.full) begin
+            if (vif.monitor_cb.wr_en) begin
                 mon_item = fifo_write_seq_item::type_id::create("mon_item");
                 mon_item.wr_data     = vif.monitor_cb.wr_data;
                 mon_item.full        = vif.monitor_cb.full;
@@ -58,7 +58,7 @@ class fifo_rd_monitor extends uvm_monitor;
 
         forever begin
             @(vif.monitor_cb);
-            if (vif.monitor_cb.rd_en && ~vif.monitor_cb.empty) begin
+            if (vif.monitor_cb.rd_en) begin
                 mon_item = fifo_read_seq_item::type_id::create("mon_item");
                 mon_item.empty        = vif.monitor_cb.empty;
                 mon_item.almost_empty = vif.monitor_cb.almost_empty;

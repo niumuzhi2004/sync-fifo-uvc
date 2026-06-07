@@ -6,6 +6,7 @@ class fifo_scoreboard extends uvm_scoreboard;
     uvm_analysis_imp_rd #(fifo_read_seq_item, fifo_scoreboard) rd_imp;
 
     logic [DATA_WIDTH-1:0] queue [$];
+    logic [DATA_WIDTH-1:0] last_rd_data = 0;
 
     function new(string name = "fifo_scoreboard", uvm_component parent = null);
         super.new(name, parent);
@@ -28,7 +29,6 @@ class fifo_scoreboard extends uvm_scoreboard;
             queue.push_back(item.wr_data);
         else begin
             `uvm_info("SCORE", $sformatf("Ignored writing %0d while FIFO is full.", item.wr_data), UVM_LOW)
-            return;
         end
 
         if (full_passed && almost_full_passed && count_passed) begin
@@ -48,9 +48,10 @@ class fifo_scoreboard extends uvm_scoreboard;
         count_passed        = (item.count == queue.size());
 
         if (queue.size() == 0) begin
-            `uvm_fatal("INVALID_READ", "Cannot read while queue is empty!")
+            exp_result = last_rd_data;
         end else begin
-            exp_result = queue.pop_front();
+            exp_result   = queue.pop_front();
+            last_rd_data = exp_result;
         end
 
         fifo_passed = (item.rd_data == exp_result);
