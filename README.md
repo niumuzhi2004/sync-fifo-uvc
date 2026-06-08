@@ -22,6 +22,9 @@ This project implements a simple **UVM (Universal Verification Methodology) veri
 
 
 ## Testbench Architecture
+
+![UVM Testbench Architecture Diagram](./.github/assets/testbench_architecture.svg)
+
 - **UVC** - UVM verification component
     - 2 agents (write and read), each containing a driver, monitor, and sequencer
     - 2 sequence items for read and write transactions, respectively
