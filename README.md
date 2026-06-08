@@ -6,6 +6,8 @@ This project implements a simple **UVM (Universal Verification Methodology) veri
 
 ## DUT Specification
 
+![DUT Block Diagram](./.github/assets/fifo.svg)
+
 | Parameter | Value |
 |-----------|-------|
 | `DATA_WIDTH` | 32 |
