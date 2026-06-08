@@ -20,7 +20,7 @@ class fifo_env extends uvm_env;
         scoreboard = fifo_scoreboard::type_id::create("scoreboard", this);
         vseqr      = fifo_virtual_sequencer::type_id::create("vseqr", this);
 
-        if (!uvm_config_db #(DEPTH, DATA_WIDTH)::get(this, "", "vif", vseqr.vif)) begin
+        if (!uvm_config_db #(virtual fifo_if #(DEPTH, DATA_WIDTH))::get(this, "", "vif", vseqr.vif)) begin
             `uvm_fatal("NO_VIF", "Virtual interface not found!")
         end
     endfunction
