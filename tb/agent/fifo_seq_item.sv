@@ -13,6 +13,16 @@ class fifo_write_seq_item extends uvm_sequence_item;
         `uvm_field_int(count,       UVM_ALL_ON)
     `uvm_object_utils_end
 
+    // coverage-driven constraint
+    constraint corner_cases {
+        wr_data dist {
+             32'h00000000               := 1,
+            [32'h00000001:32'h7FFFFFFF] := 1,
+            [32'h80000000:32'hFFFFFFFE] := 1,
+             32'hFFFFFFFF               := 1
+        }
+    }
+
     function new(string name = "fifo_write_seq_item");
         super.new(name);
     endfunction

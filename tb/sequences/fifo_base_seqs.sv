@@ -1,7 +1,11 @@
 class fifo_wr_seq extends uvm_sequence #(fifo_write_seq_item);
     `uvm_object_utils(fifo_wr_seq)
 
-    int count = DEPTH + 1;
+    rand int unsigned count;
+
+    constraint reasonable_count {
+        count inside {[1:DEPTH+1]};
+    }
 
     function new(string name = "fifo_wr_seq");
         super.new(name);
@@ -24,7 +28,11 @@ endclass
 class fifo_rd_seq extends uvm_sequence #(fifo_read_seq_item);
     `uvm_object_utils(fifo_rd_seq)
 
-    int count = DEPTH + 1;
+    rand int unsigned count;
+
+    constraint reasonable_count {
+        count inside {[1:DEPTH+1]};
+    }
 
     function new(string name = "fifo_rd_seq");
         super.new(name);
