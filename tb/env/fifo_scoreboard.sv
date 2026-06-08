@@ -64,4 +64,9 @@ class fifo_scoreboard extends uvm_scoreboard;
 
     endfunction
 
+    function void reset();
+        queue.delete();
+        last_rd_data = 0;
+    endfunction
+
 endclass

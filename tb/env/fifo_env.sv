@@ -34,6 +34,7 @@ class fifo_env extends uvm_env;
 
         vseqr.wr_sequencer = wr_agent.sequencer;
         vseqr.rd_sequencer = rd_agent.sequencer;
+        vseqr.scoreboard   = scoreboard;
     endfunction
 
 endclass
