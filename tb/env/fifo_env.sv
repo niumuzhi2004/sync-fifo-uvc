@@ -19,6 +19,10 @@ class fifo_env extends uvm_env;
         cover_inst = fifo_coverage::type_id::create("cover_inst", this);
         scoreboard = fifo_scoreboard::type_id::create("scoreboard", this);
         vseqr      = fifo_virtual_sequencer::type_id::create("vseqr", this);
+
+        if (!uvm_config_db #(DEPTH, DATA_WIDTH)::get(this, "", "vif", vseqr.vif)) begin
+            `uvm_fatal("NO_VIF", "Virtual interface not found!")
+        end
     endfunction
 
     function void connect_phase(uvm_phase phase);
