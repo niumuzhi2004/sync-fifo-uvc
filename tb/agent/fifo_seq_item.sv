@@ -20,7 +20,7 @@ class fifo_write_seq_item extends uvm_sequence_item;
             [32'h00000001:32'h7FFFFFFF] := 1,
             [32'h80000000:32'hFFFFFFFE] := 1,
              32'hFFFFFFFF               := 1
-        }
+        };
     }
 
     function new(string name = "fifo_write_seq_item");
