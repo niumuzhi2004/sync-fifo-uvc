@@ -23,15 +23,15 @@ class fifo_wr_driver extends uvm_driver #(fifo_write_seq_item);
     endtask
 
     task drive_item2bus(fifo_write_seq_item req);
-        vif.wr_driver_cb.wr_en   = 1'b1;
-        vif.wr_driver_cb.wr_data = req.wr_data;
+        vif.wr_driver_cb.wr_en   <= 1'b1;
+        vif.wr_driver_cb.wr_data <= req.wr_data;
 
         @(vif.wr_driver_cb);
         req.full        = vif.wr_driver_cb.full;
         req.almost_full = vif.wr_driver_cb.almost_full;
         req.count       = vif.wr_driver_cb.count;
 
-        vif.wr_driver_cb.wr_en   = 1'b0;
+        vif.wr_driver_cb.wr_en   <= 1'b0;
     endtask
 
 endclass
@@ -62,7 +62,7 @@ class fifo_rd_driver extends uvm_driver #(fifo_read_seq_item);
     endtask
 
     task drive_item2bus(fifo_read_seq_item req);
-        vif.rd_driver_cb.rd_en = 1'b1;
+        vif.rd_driver_cb.rd_en <= 1'b1;
 
         @(vif.rd_driver_cb);
         req.rd_data      = vif.rd_driver_cb.rd_data;
@@ -70,7 +70,7 @@ class fifo_rd_driver extends uvm_driver #(fifo_read_seq_item);
         req.almost_empty = vif.rd_driver_cb.almost_empty;
         req.count        = vif.rd_driver_cb.count;
 
-        vif.rd_driver_cb.rd_en = 1'b0;
+        vif.rd_driver_cb.rd_en <= 1'b0;
     endtask
 
 endclass

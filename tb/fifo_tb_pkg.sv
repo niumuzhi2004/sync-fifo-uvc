@@ -1,16 +1,14 @@
 `ifndef FIFO_TB_PKG
 `define FIFO_TB_PKG
 
-`include "uvm_macros.svh"
-import uvm_pkg::*;
-
-`uvm_analysis_imp_decl(_wr)
-`uvm_analysis_imp_decl(_rd)
-
 package fifo_tb_pkg;
 
     import fifo_pkg::*;
     import uvm_pkg::*;
+    `include "uvm_macros.svh"
+
+    `uvm_analysis_imp_decl(_wr)
+    `uvm_analysis_imp_decl(_rd)
 
     `include "./agent/fifo_seq_item.sv"
     `include "./agent/fifo_sequencer.sv"

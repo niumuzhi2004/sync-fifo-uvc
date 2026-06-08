@@ -34,12 +34,15 @@ module tb_top();
         if_inst.rd_en   = 0;
         if_inst.wr_data = 0;
         if_inst.rst_n   = 0;
-        repeat (3) @(posedge clk);
-        if_inst.rst_n   = 1;
 
         uvm_config_db #(virtual fifo_if #(DEPTH, DATA_WIDTH))
             ::set(null, "uvm_test_top.*", "vif", if_inst);
         run_test();
+    end
+
+    initial begin
+        repeat (3) @(posedge clk);
+        if_inst.rst_n = 1;
     end
 
 endmodule
