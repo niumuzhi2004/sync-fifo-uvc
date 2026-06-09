@@ -27,6 +27,7 @@ class fifo_partial_fill_test extends fifo_base_test;
         phase.raise_objection(this);
         partial_fill_seq = fifo_partial_fill_vseq::type_id::create("partial_fill_seq");
         partial_fill_seq.start(env.vseqr);
+        #50; // drain time
         phase.drop_objection(this);
     endtask
 
@@ -45,6 +46,7 @@ class fifo_full_cycle_test extends fifo_base_test;
         phase.raise_objection(this);
         full_cycle_vseq = fifo_full_cycle_vseq::type_id::create("full_cycle_vseq");
         full_cycle_vseq.start(env.vseqr);
+        #50; // drain time
         phase.drop_objection(this);
     endtask
 
@@ -63,6 +65,7 @@ class fifo_concurrent_test extends fifo_base_test;
         phase.raise_objection(this);
         concurrent_vseq = fifo_concurrent_vseq::type_id::create("concurrent_vseq");
         concurrent_vseq.start(env.vseqr);
+        #50; // drain time
         phase.drop_objection(this);
     endtask
 
@@ -81,6 +84,7 @@ class fifo_reset_test extends fifo_base_test;
         phase.raise_objection(this);
         reset_vseq = fifo_reset_vseq::type_id::create("reset_vseq");
         reset_vseq.start(env.vseqr);
+        #50; // drain time
         phase.drop_objection(this);
     endtask
 

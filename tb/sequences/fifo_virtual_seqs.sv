@@ -89,6 +89,7 @@ class fifo_reset_vseq extends uvm_sequence;
 
             wr_seq.start(p_sequencer.wr_sequencer);
             rd_seq.start(p_sequencer.rd_sequencer);
+            # 50; // drain time between reps
         end
     endtask
 
@@ -115,6 +116,7 @@ class fifo_partial_fill_vseq extends uvm_sequence;
             rd_seq.randomize() with { rd_seq.count == wr_seq.count; };
             wr_seq.start(p_sequencer.wr_sequencer);
             rd_seq.start(p_sequencer.rd_sequencer);
+            # 50; // drain time between reps
         end
     endtask
     
