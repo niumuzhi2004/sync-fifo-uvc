@@ -41,6 +41,7 @@ class fifo_read_seq_item extends uvm_sequence_item;
     logic empty;
     logic almost_empty;
     logic [$clog2(DEPTH):0] count;
+    time capture_time;
 
     `uvm_object_utils_begin(fifo_read_seq_item)
         `uvm_field_int(rd_data,      UVM_ALL_ON)

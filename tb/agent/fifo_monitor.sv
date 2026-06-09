@@ -71,6 +71,7 @@ class fifo_rd_monitor extends uvm_monitor;
                 mon_item.empty        = vif.monitor_cb.empty;
                 mon_item.almost_empty = vif.monitor_cb.almost_empty;
                 mon_item.count        = vif.monitor_cb.count;
+                mon_item.capture_time = $time;
                 pending_read = 1;
             end
         end 
