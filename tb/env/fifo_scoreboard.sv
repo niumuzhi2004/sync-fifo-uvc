@@ -25,6 +25,10 @@ class fifo_scoreboard extends uvm_scoreboard;
         almost_full_passed = item.almost_full == (queue.size() >= ALMOST_FULL_THRESHOLD);
         count_passed       = (item.count == queue.size());
 
+        `uvm_info("SCORE", $sformatf(
+                    "write_wr called: queue.size=%0d, item.full=%0d, item.count=%0d",
+                    queue.size(), item.full, item.count), UVM_LOW)
+
         if (queue.size() < DEPTH) 
             queue.push_back(item.wr_data);
         else begin
@@ -34,7 +38,15 @@ class fifo_scoreboard extends uvm_scoreboard;
         if (full_passed && almost_full_passed && count_passed) begin
             `uvm_info("SCORE", $sformatf("Test passed while writing %0d.", item.wr_data), UVM_LOW)
         end else begin
-            `uvm_error("SCORE", $sformatf("Test failed while writing %0d.", item.wr_data))
+            if (~full_passed) begin
+                `uvm_error("SCORE", $sformatf("Full flag incorrect while writing %0d.", item.wr_data))
+            end
+            if (~almost_full_passed) begin
+                `uvm_error("SCORE", $sformatf("Almost full flag incorrect while writing %0d.", item.wr_data))
+            end
+            if (~count_passed) begin
+                `uvm_error("SCORE", $sformatf("Count incorrect. Expected %0d, Got %0d.", queue.size(), item.count))
+            end
         end
 
     endfunction
@@ -47,8 +59,13 @@ class fifo_scoreboard extends uvm_scoreboard;
         almost_empty_passed = item.almost_empty == (queue.size() <= ALMOST_EMPTY_THRESHOLD);
         count_passed        = (item.count == queue.size());
 
+        `uvm_info("SCORE", $sformatf(
+                "write_rd called: queue.size=%0d, item.empty=%0d, item.count=%0d, item.rd_data=%0d",
+                queue.size(), item.empty, item.count, item.rd_data), UVM_LOW)
+
         if (queue.size() == 0) begin
             exp_result = last_rd_data;
+            `uvm_info("SCORE", $sformatf("Read data holding previous value %d while FIFO is empty.", item.rd_data), UVM_LOW)
         end else begin
             exp_result   = queue.pop_front();
             last_rd_data = exp_result;
@@ -59,7 +76,18 @@ class fifo_scoreboard extends uvm_scoreboard;
         if (fifo_passed && empty_passed && almost_empty_passed && count_passed) begin
             `uvm_info("SCORE", $sformatf("Test passed while reading %0d.", item.rd_data), UVM_LOW)
         end else begin
-            `uvm_error("SCORE", $sformatf("Test failed while reading %0d.", item.rd_data))
+            if (~empty_passed) begin
+                `uvm_error("SCORE", $sformatf("Empty flag incorrect while reading %0d.", item.rd_data))
+            end
+            if (~almost_empty_passed) begin
+                `uvm_error("SCORE", $sformatf("Almost empty flag incorrect while reading %0d.", item.rd_data))
+            end
+            if (~count_passed) begin
+                `uvm_error("SCORE", $sformatf("Count incorrect. Expected %0d, Got %0d.", queue.size(), item.count))
+            end
+            if (~fifo_passed) begin
+                `uvm_error("SCORE", $sformatf("Read value incorrect. Expected %0d, Got %0d.", exp_result, item.rd_data))
+            end
         end
 
     endfunction

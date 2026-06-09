@@ -55,18 +55,23 @@ class fifo_rd_monitor extends uvm_monitor;
 
     task run_phase(uvm_phase phase);
         fifo_read_seq_item mon_item;
+        logic pending_read = 0;
 
         forever begin
             @(vif.monitor_cb);
+
+            if (pending_read) begin
+                mon_item.rd_data = vif.monitor_cb.rd_data;
+                fifo_rd_ap.write(mon_item);
+                pending_read = 0;
+            end
+
             if (vif.monitor_cb.rd_en) begin
                 mon_item = fifo_read_seq_item::type_id::create("mon_item");
                 mon_item.empty        = vif.monitor_cb.empty;
                 mon_item.almost_empty = vif.monitor_cb.almost_empty;
                 mon_item.count        = vif.monitor_cb.count;
-
-                @(vif.monitor_cb);
-                mon_item.rd_data      = vif.monitor_cb.rd_data;
-                fifo_rd_ap.write(mon_item);
+                pending_read = 1;
             end
         end 
     endtask
