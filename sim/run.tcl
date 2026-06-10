@@ -27,11 +27,17 @@ foreach test {
     exec xsim tb_top_snapshot \
         -testplusarg UVM_TESTNAME=$test \
         -testplusarg UVM_VERBOSITY=UVM_LOW \
+        -cov_db_name $test \
         -runall \
         -log ${test}.log
 }
 
 # generate coverage report (change -report_format to text if preferred)
-exec xcrg -report_format html -dir xsim.covdb/tb_top_snapshot -report_dir coverage_report
+exec xcrg -cov_db_name fifo_full_cycle_test \
+          -cov_db_name fifo_concurrent_test \
+          -cov_db_name fifo_reset_test \
+          -cov_db_name fifo_partial_fill_test \
+          -report_format html \
+          -report_dir coverage_report \
 
 exit
