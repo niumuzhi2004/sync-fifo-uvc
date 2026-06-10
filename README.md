@@ -28,7 +28,7 @@ This project implements a simple **UVM (Universal Verification Methodology) veri
 - **UVC** - UVM verification component
     - 2 agents (write and read), each containing a driver, monitor, and sequencer
     - 2 sequence items for read and write transactions, respectively
-- **Scoreboard** - checks data integrity and status flags using a SystemVerilog queue as a reference model
+- **Scoreboard** - checks data integrity and status flags using a SystemVerilog queue as a reference model, uses a bucket mechanism to process simultaneous reads and writes
 - **Coverage** - functional covergroups for write data boundary values, status flags (`full`, `empty`, `almost_full`, `almost_empty`), and FIFO state transitions
 - **Sequences** - 4 virtual sequences based on the basic read and write sequences that test different scenarios of using the FIFO.
 
@@ -42,6 +42,8 @@ This project implements a simple **UVM (Universal Verification Methodology) veri
 - **Tests** - 4 tests (`fifo_partial_fill_test`, `fifo_full_cycle_test`, `fifo_concurrent_test`, `fifo_reset_test`) mapping to the 4 virtual sequences
 
 ## Results
+- all 4 tests passed with 100% score
+- achieved 100% functional coverage
 
 
 ## Requirements
@@ -57,4 +59,4 @@ cd sim
 vivado -mode batch -source run.tcl
 ```
 
-> Coverage report generated at `sim/coverage_report/functionalCoverageReport/xcrg_func_cov_report.txt`
+> Coverage report generated at `sim/coverage_report/functionalCoverageReport/dashboard.html`
