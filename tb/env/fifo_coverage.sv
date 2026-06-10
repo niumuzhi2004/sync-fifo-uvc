@@ -10,16 +10,14 @@ class fifo_coverage extends uvm_component;
     uvm_analysis_imp_rd #(fifo_read_seq_item, fifo_coverage) rd_imp;
 
     covergroup fifo_wr_covergroup with function sample();
-        // track coverage info for each instance
-        option.per_instance = 1;
 
         cp_full: coverpoint full {
-            bins full     = { 1 };
+            bins is_full  = { 1 };
             bins not_full = { 0 };
         }
 
         cp_almost_full: coverpoint almost_full {
-            bins almost_full     = { 1 };
+            bins is_almost_full     = { 1 };
             bins not_almost_full = { 0 };
         }
 
@@ -43,14 +41,9 @@ class fifo_coverage extends uvm_component;
             bins almost_full_to_full    = (DEPTH-1 => DEPTH);
         }
 
-        cp_wr_full: cross cp_wr_data, cp_full;
-        cp_wr_almost_full: cross cp_wr_data, cp_almost_full;
-
     endgroup
 
     covergroup fifo_rd_covergroup with function sample();
-        // track coverage info for each instance
-        option.per_instance = 1;
 
         cp_empty: coverpoint empty {
             bins empty     = { 1 };
