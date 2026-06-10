@@ -1,5 +1,6 @@
 class fifo_write_seq_item extends uvm_sequence_item;
 
+    rand bit [1:0] bucket;
     rand logic [DATA_WIDTH-1:0] wr_data;
 
     logic full;
@@ -15,12 +16,11 @@ class fifo_write_seq_item extends uvm_sequence_item;
 
     // coverage-driven constraint
     constraint corner_cases {
-        wr_data dist {
-             32'h00000000               := 1,
-            [32'h00000001:32'h7FFFFFFF] := 1,
-            [32'h80000000:32'hFFFFFFFE] := 1,
-             32'hFFFFFFFF               := 1
-        };
+        bucket dist { 0 := 1, 1 := 1, 2 := 1, 3 := 1 };
+        bucket == 0 -> wr_data == 32'h00000000;
+        bucket == 1 -> wr_data inside {[32'h00000001:32'h7FFFFFFF]};
+        bucket == 2 -> wr_data inside {[32'h80000000:32'hFFFFFFFE]};
+        bucket == 3 -> wr_data == 32'hFFFFFFFF;
     }
 
     function new(string name = "fifo_write_seq_item");
